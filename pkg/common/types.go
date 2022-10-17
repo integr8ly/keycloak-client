@@ -1,7 +1,7 @@
 package common
 
 import (
-	"github.com/keycloak/keycloak-operator/pkg/apis/keycloak/v1alpha1"
+	types "github.com/integr8ly/keycloak-client/pkg/types"
 )
 
 type Requirement string
@@ -33,7 +33,7 @@ type AuthenticationFlow struct {
 }
 
 type UserAttributes struct {
-	User      v1alpha1.KeycloakAPIUser `json:"user,omitempty"`
+	User      types.KeycloakAPIUser `json:"user,omitempty"`
 	Attribute map[string]string        `json:"attribute,omitempty"`
 }
 
