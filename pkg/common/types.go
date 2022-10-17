@@ -34,7 +34,7 @@ type AuthenticationFlow struct {
 
 type UserAttributes struct {
 	User      types.KeycloakAPIUser `json:"user,omitempty"`
-	Attribute map[string]string        `json:"attribute,omitempty"`
+	Attribute map[string]string     `json:"attribute,omitempty"`
 }
 
 type Users struct {
