@@ -9,7 +9,7 @@ import (
 
 	jsoniter "github.com/json-iterator/go"
 
-	"github.com/keycloak/keycloak-operator/pkg/apis/keycloak/v1alpha1"
+	types "github.com/integr8ly/keycloak-client/pkg/types"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -44,15 +44,15 @@ const (
 	AuthenticationFlowListPath        = "/auth/admin/realms/%s/authentication/flows"
 )
 
-func getDummyRealm() *v1alpha1.KeycloakRealm {
-	return &v1alpha1.KeycloakRealm{
-		Spec: v1alpha1.KeycloakRealmSpec{
-			Realm: &v1alpha1.KeycloakAPIRealm{
+func getDummyRealm() *types.KeycloakRealm {
+	return &types.KeycloakRealm{
+		Spec: types.KeycloakRealmSpec{
+			Realm: &types.KeycloakAPIRealm{
 				ID:          "dummy",
 				Realm:       "dummy",
 				Enabled:     false,
 				DisplayName: "dummy",
-				Users: []*v1alpha1.KeycloakAPIUser{
+				Users: []*types.KeycloakAPIUser{
 					getExistingDummyUser(),
 				},
 			},
@@ -60,15 +60,15 @@ func getDummyRealm() *v1alpha1.KeycloakRealm {
 	}
 }
 
-func getExistingDummyUser() *v1alpha1.KeycloakAPIUser {
-	return &v1alpha1.KeycloakAPIUser{
+func getExistingDummyUser() *types.KeycloakAPIUser {
+	return &types.KeycloakAPIUser{
 		ID:            "existing-dummy-user",
 		UserName:      "existing-dummy-user",
 		FirstName:     "existing-dummy-user",
 		LastName:      "existing-dummy-user",
 		Enabled:       true,
 		EmailVerified: true,
-		Credentials: []v1alpha1.KeycloakCredential{
+		Credentials: []types.KeycloakCredential{
 			{
 				Type:      "password",
 				Value:     "password",
@@ -78,8 +78,8 @@ func getExistingDummyUser() *v1alpha1.KeycloakAPIUser {
 	}
 }
 
-func getDummyUser() *v1alpha1.KeycloakAPIUser {
-	return &v1alpha1.KeycloakAPIUser{
+func getDummyUser() *types.KeycloakAPIUser {
+	return &types.KeycloakAPIUser{
 		ID:            "dummy",
 		UserName:      "dummy",
 		FirstName:     "dummy",
@@ -242,7 +242,7 @@ func TestClient_ListUsersInGroup(t *testing.T) {
 
 	testClientHTTPRequest(
 		withMethodSelection(t, map[string]http.HandlerFunc{
-			http.MethodGet: withPathAssertionBody(t, 200, expectedPath, &v1alpha1.KeycloakAPIUser{}),
+			http.MethodGet: withPathAssertionBody(t, 200, expectedPath, &types.KeycloakAPIUser{}),
 		}),
 
 		func(c *Client) {
@@ -333,7 +333,7 @@ func TestClient_ListRealms(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, RealmsCreatePath, req.URL.Path)
 		assert.Equal(t, req.Method, http.MethodGet)
-		var list []*v1alpha1.KeycloakAPIRealm
+		var list []*types.KeycloakAPIRealm
 		list = append(list, realm.Spec.Realm)
 		json, err := jsoniter.Marshal(list)
 		assert.NoError(t, err)
@@ -525,7 +525,7 @@ func TestClient_CreateGroupClientRole(t *testing.T) {
 
 	with := withPathAssertion(t, 201, fmt.Sprintf(GroupCreateClientRole, realm.Spec.Realm.Realm, groupID, clientID))
 	when := func(c *Client) {
-		_, err := c.CreateGroupClientRole(&v1alpha1.KeycloakUserRole{}, realm.Spec.Realm.Realm, clientID, groupID)
+		_, err := c.CreateGroupClientRole(&types.KeycloakUserRole{}, realm.Spec.Realm.Realm, clientID, groupID)
 		assert.NoError(t, err)
 	}
 
@@ -578,7 +578,7 @@ func TestClient_UpdateAuthenticationExecutionForFlow(t *testing.T) {
 	testClientHTTPRequest(
 		withPathAssertion(t, 200, requestPath),
 		func(c *Client) {
-			err := c.UpdateAuthenticationExecutionForFlow(flowAlias, realm.Spec.Realm.Realm, &v1alpha1.AuthenticationExecutionInfo{})
+			err := c.UpdateAuthenticationExecutionForFlow(flowAlias, realm.Spec.Realm.Realm, &types.AuthenticationExecutionInfo{})
 			assert.NoError(t, err)
 		},
 	)
@@ -592,7 +592,7 @@ func TestClient_CreateGroupRealmRole(t *testing.T) {
 	testClientHTTPRequest(
 		withPathAssertion(t, 201, expectedPath),
 		func(c *Client) {
-			_, err := c.CreateGroupRealmRole(&v1alpha1.KeycloakUserRole{}, realm.Spec.Realm.Realm, groupID)
+			_, err := c.CreateGroupRealmRole(&types.KeycloakUserRole{}, realm.Spec.Realm.Realm, groupID)
 			assert.NoError(t, err)
 		},
 	)
@@ -711,8 +711,8 @@ func TestClient_AddExecutionToAuthenticatonFlow(t *testing.T) {
 			t,
 			200,
 			fmt.Sprintf(AuthenticationFlowListExecution, realm.Spec.Realm.Realm, authenticationFlowAlias),
-			[]*v1alpha1.AuthenticationExecutionInfo{
-				&v1alpha1.AuthenticationExecutionInfo{
+			[]*types.AuthenticationExecutionInfo{
+				&types.AuthenticationExecutionInfo{
 					Alias:      authenticationFlowAlias,
 					ID:         existingAuthenticationFlowID,
 					ProviderID: providerID,
@@ -817,7 +817,7 @@ func TestClient_login(t *testing.T) {
 		assert.Equal(t, TokenPath, req.URL.Path)
 		assert.Equal(t, req.Method, http.MethodPost)
 
-		response := v1alpha1.TokenResponse{
+		response := types.TokenResponse{
 			AccessToken: "dummy",
 		}
 
