@@ -5,6 +5,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+const (
+	KeycloakClientGroup      = "keycloak.org"
+	KeycloakClientVersion    = "v1alpha1"
+	KeycloakClientKind       = "KeycloakClient"
+	KeycloakClientListKind   = "KeycloakClientList"
+	KeycloakClientApiVersion = "keycloak.org/v1alpha1"
+)
+
 // KeycloakClientSpec defines the desired state of KeycloakClient.
 type KeycloakClientSpec struct {
 	// Selector for looking up KeycloakRealm Custom Resources.

@@ -4,6 +4,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+const (
+	KeycloakBackupGroup      = "keycloak.org"
+	KeycloakBackupVersion    = "v1alpha1"
+	KeycloakBackupKind       = "KeycloakBackup"
+	KeycloakBackupsKind      = "KeycloakBackupList"
+	KeycloakBackupApiVersion = "keycloak.org/v1alpha1"
+)
+
 // KeycloakBackupSpec defines the desired state of KeycloakBackup.
 type KeycloakBackupSpec struct {
 	// Controls automatic restore behavior.

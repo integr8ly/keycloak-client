@@ -5,7 +5,12 @@ import (
 )
 
 const (
-	UserFinalizer = "user.cleanup"
+	UserFinalizer          = "user.cleanup"
+	KeycloakUserGroup      = "keycloak.org"
+	KeycloakUserVersion    = "v1alpha1"
+	KeycloakUserKind       = "KeycloakUser"
+	KeycloakUserListKind   = "KeycloakUserList"
+	KeycloakUserApiVersion = "keycloak.org/v1alpha1"
 )
 
 var (

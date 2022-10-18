@@ -4,6 +4,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+const (
+	KeycloakRealmGroup      = "keycloak.org"
+	KeycloakRealmVersion    = "v1alpha1"
+	KeycloakRealmKind       = "KeycloakRealm"
+	KeycloakRealmListKind   = "KeycloakRealmList"
+	KeycloakRealmApiVersion = "keycloak.org/v1alpha1"
+)
+
 // KeycloakRealmSpec defines the desired state of KeycloakRealm.
 type KeycloakRealmSpec struct {
 	// When set to true, this KeycloakRealm will be marked as unmanaged and not be managed by this operator.

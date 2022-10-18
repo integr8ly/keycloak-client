@@ -7,6 +7,14 @@ import (
 
 type TLSTerminationType string
 
+const (
+	KeycloakGroup      = "keycloak.org"
+	KeycloakVersion    = "v1alpha1"
+	KeycloakKind       = "Keycloak"
+	KeycloakListKind   = "KeycloakList"
+	KeycloakApiVersion = "keycloak.org/v1alpha1"
+)
+
 var (
 	DefaultTLSTermintation        TLSTerminationType
 	ReencryptTLSTerminationType   TLSTerminationType = "reencrypt"
